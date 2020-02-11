@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "Task.h"
+#include <vector>
 
 class Rect : public Task
 {
@@ -25,6 +26,5 @@ class Poly : public Task
 {
 public:
 	void Draw(HDC hdc);
-
-	list<POINT> Points;
+	std::vector<POINT> Points;
 };

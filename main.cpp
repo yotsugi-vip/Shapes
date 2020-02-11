@@ -26,6 +26,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: ここにコードを挿入してください。
+    TaskManager::GetInstance()->Create();
+
+    Poly* poly = new Poly();
+    std::vector<POINT> ps(5);
+    ps[0].x = 10;
+    ps[0].y = 10;
+    ps[1].x = 20;
+    ps[1].y = 260;
+    ps[2].x = 190;
+    ps[2].y = 60;
+    ps[3].x = 50;
+    ps[3].y = 100;
+    ps[4].x = 210;
+    ps[4].y = 160;
+    poly->Points = ps;
+    Task* task = poly;
+    TaskManager::GetInstance()->RegisterTask(task);
 
     // グローバル文字列を初期化する
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -146,7 +163,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: HDC を使用する描画コードをここに追加してください...
+            
+            TaskManager::GetInstance()->AllDraw(hdc);
+
             EndPaint(hWnd, &ps);
         }
         break;

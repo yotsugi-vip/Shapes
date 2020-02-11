@@ -12,5 +12,5 @@ void Circle::Draw(HDC hdc)
 
 void Poly::Draw(HDC hdc)
 {
-	Polygon( hdc,  )
+	Polygon(hdc, this->Points.data(), this->Points.size());
 }
