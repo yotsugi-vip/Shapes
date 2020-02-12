@@ -2,7 +2,7 @@
 //
 
 #include "framework.h"
-#include "Shapes.h"
+
 
 #define MAX_LOADSTRING 100
 
@@ -26,9 +26,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: ここにコードを挿入してください。
-    TaskManager::GetInstance()->Create();
+    TaskManager::Create();
+    Entity::Create();
 
-    Poly* poly = new Poly();
+   /* Poly* poly = new Poly();
     std::vector<POINT> ps(5);
     ps[0].x = 10;
     ps[0].y = 10;
@@ -43,6 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     poly->Points = ps;
     Task* task = poly;
     TaskManager::GetInstance()->RegisterTask(task);
+     */
 
     // グローバル文字列を初期化する
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -67,6 +69,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+        MainEvent();
     }
 
     return (int) msg.wParam;
@@ -172,6 +175,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    case WM_MOUSEMOVE:
+    {
+        Entity::GetInstance()->mouse_x = GET_X_LPARAM(lParam);
+        Entity::GetInstance()->mouse_y = GET_Y_LPARAM(lParam);
+        break;
+    }
+    case WM_LBUTTONDOWN:
+    {
+        stEvent event;
+        event.id = EventId::L_BUTTON_DOWN;
+        EventSend(event);
+        break;
+    }
+    case WM_LBUTTONUP:
+    {
+        stEvent event;
+        event.id = EventId::L_BUTTON_UP;
+        EventSend(event);
+        break;
+    }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
