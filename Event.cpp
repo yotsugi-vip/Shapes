@@ -1,8 +1,7 @@
 #include "Event.h"
-#include "framework.h"
 #include <queue>
-
 #include <functional>
+
 std::queue<stEvent> EventQueue;
 static bool nowPaint = false;
 
@@ -20,6 +19,38 @@ std::function<void(void)> EventTable[] =
 	/* 4 : LBU  */  EvLButtonUp,
 	/* 5 : MMOVE*/  EvMouseMove,
 };
+static time_t t = 0;
+static int i = 0;
+void FpsCtrl( MSG msg )
+{
+	WCHAR wc[256];
+	int l = 0;
+	if (t == 0)
+	{
+		t = GetTickCount64();
+	}
+	else
+	{
+		if (GetTickCount64() - t > 1000)
+		{
+			l = wsprintfW(wc, L"LOOP:%d", i);
+		
+			HDC hdc = GetDC(msg.hwnd);
+			TextOutW(hdc, 10, 10, wc, l);
+			TextOut(hdc, 10, 10, L"HELLO", 5);
+			ReleaseDC(msg.hwnd, hdc);
+			
+			OutputDebugString(wc);
+			t = 0;
+			i = 0;
+		}
+		else
+		{
+			i++;
+			
+		}
+	}
+}
 
 void MainEvent()
 {
@@ -51,7 +82,6 @@ void EvLButtonDown()
 	task->Start.y = Entity::GetInstance()->Datas.mouse_y;
 	task->End.x	  = Entity::GetInstance()->Datas.mouse_x;
 	task->End.y	  = Entity::GetInstance()->Datas.mouse_y;
-	TaskManager::GetInstance()->DestroyTask();
 	TaskManager::GetInstance()->RegisterTask(task);
 	nowPaint = true;
 }

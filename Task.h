@@ -20,5 +20,6 @@ public:
 	void AllDraw( HDC hdc );
 private:
 	std::list<Task*> TaskList;
+	Task* ActiveTask;
 };
 

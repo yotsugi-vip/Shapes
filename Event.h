@@ -1,4 +1,5 @@
 #pragma once
+#include "framework.h"
 
 enum EventId
 {
@@ -18,3 +19,4 @@ typedef struct Event
 
 void MainEvent(void);
 void EventSend(stEvent event);
+void FpsCtrl( MSG msg );

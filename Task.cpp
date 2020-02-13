@@ -11,11 +11,12 @@ void TaskManager::AllDraw( HDC hdc )
 void TaskManager::RegisterTask(Task* task)
 {
 	TaskManager::TaskList.push_back(task);
+	this->ActiveTask = task;
 }
 
 Task* TaskManager::GetTask()
 {
-	return this->TaskList.front();
+	return this->ActiveTask;
 }
 
 void TaskManager::DestroyTask()
