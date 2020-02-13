@@ -1,14 +1,24 @@
 #include "Event.h"
+#include "framework.h"
 #include <queue>
 
 #include <functional>
 std::queue<stEvent> EventQueue;
+static bool nowPaint = false;
+
+
+void EvLButtonDown();
+void EvMouseMove();
+void EvLButtonUp();
 
 std::function<void(void)> EventTable[] =
 {
 	/* 0 : IDLE */	nullptr,
 	/* 1 : BUSY */	nullptr,
 	/* 2 : EDIT */  nullptr,
+	/* 3 : LBD  */  EvLButtonDown,
+	/* 4 : LBU  */  EvLButtonUp,
+	/* 5 : MMOVE*/  EvMouseMove,
 };
 
 void MainEvent()
@@ -31,4 +41,32 @@ void MainEvent()
 void EventSend( stEvent event ) 
 {
 	EventQueue.push(event);
+}
+
+
+void EvLButtonDown() 
+{
+	Rect* task = new Rect();
+	task->Start.x = Entity::GetInstance()->Datas.mouse_x;
+	task->Start.y = Entity::GetInstance()->Datas.mouse_y;
+	task->End.x	  = Entity::GetInstance()->Datas.mouse_x;
+	task->End.y	  = Entity::GetInstance()->Datas.mouse_y;
+	TaskManager::GetInstance()->DestroyTask();
+	TaskManager::GetInstance()->RegisterTask(task);
+	nowPaint = true;
+}
+
+void EvMouseMove()
+{
+	if (true == nowPaint)
+	{
+		Task* task = TaskManager::GetInstance()->GetTask();
+		task->End.x = Entity::GetInstance()->Datas.mouse_x;
+		task->End.y = Entity::GetInstance()->Datas.mouse_y;
+	}
+}
+
+void EvLButtonUp()
+{
+	nowPaint = false;
 }

@@ -9,8 +9,8 @@ class Rect : public Task
 public:
 	void Draw( HDC hdc );
 
-	POINT Start;
-	POINT End;
+	//POINT Start;
+	//POINT End;
 };
 
 class Circle : public Task

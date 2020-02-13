@@ -70,6 +70,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
         MainEvent();
+        InvalidateRect(msg.hwnd, NULL, TRUE);  //領域無効化
+        UpdateWindow(msg.hwnd);                //再描画命令
     }
 
     return (int) msg.wParam;
@@ -177,8 +179,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_MOUSEMOVE:
     {
-        Entity::GetInstance()->mouse_x = GET_X_LPARAM(lParam);
-        Entity::GetInstance()->mouse_y = GET_Y_LPARAM(lParam);
+        stEvent event;
+        event.id = EventId::MOUSE_MOVE;
+        EventSend(event);
+        Entity::GetInstance()->Datas.mouse_x = GET_X_LPARAM(lParam);
+        Entity::GetInstance()->Datas.mouse_y = GET_Y_LPARAM(lParam);
         break;
     }
     case WM_LBUTTONDOWN:
