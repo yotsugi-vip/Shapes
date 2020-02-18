@@ -28,3 +28,16 @@ void TaskManager::DestroyTask()
 
 	this->TaskList.clear();
 }
+Task* TaskManager::DetectTop(POINT point)
+{
+	for (Task* task : this->TaskList)
+	{
+		if (point.x >= task->Start.x && point.x <= task->End.x
+		 && point.y >= task->Start.y && point.y <= task->End.y)
+		{
+			this->ActiveTask = task;
+			return this->ActiveTask;
+		}
+	}
+	return nullptr;
+}

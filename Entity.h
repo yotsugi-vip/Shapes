@@ -1,16 +1,17 @@
 #pragma once
 #include "Singleton.h"
+#include "framework.h"
 
-enum Status {
+enum class Status {
 	Normal = 0,
 	Edit
 };
 
 typedef struct Datas
 {
-	unsigned int mouse_x;
-	unsigned int mouse_y;
 	unsigned int status;
+	POINT Move;
+	POINT Coordinate;
 }stDatas;
 
 class Entity : public Singleton<Entity>

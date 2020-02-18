@@ -7,19 +7,21 @@ class Task
 {
 public:
 	virtual void Draw( HDC hdc ) {};
-	POINT Start;
-	POINT End;
+	POINT Start = { 0 };
+	POINT End = { 0 };
 };
 
 class TaskManager : public Singleton<TaskManager>
 {
 public:
 	void RegisterTask( Task* task );
+	Task* DetectTop(POINT point);
 	Task* GetTask();
 	void DestroyTask();
 	void AllDraw( HDC hdc );
+	bool IsDraw = false;
 private:
 	std::list<Task*> TaskList;
-	Task* ActiveTask;
+	Task* ActiveTask = nullptr;
 };
 

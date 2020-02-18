@@ -29,23 +29,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     TaskManager::Create();
     Entity::Create();
 
-   /* Poly* poly = new Poly();
-    std::vector<POINT> ps(5);
-    ps[0].x = 10;
-    ps[0].y = 10;
-    ps[1].x = 20;
-    ps[1].y = 260;
-    ps[2].x = 190;
-    ps[2].y = 60;
-    ps[3].x = 50;
-    ps[3].y = 100;
-    ps[4].x = 210;
-    ps[4].y = 160;
-    poly->Points = ps;
-    Task* task = poly;
-    TaskManager::GetInstance()->RegisterTask(task);
-     */
-
     // グローバル文字列を初期化する
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_SHAPES, szWindowClass, MAX_LOADSTRING);
@@ -69,10 +52,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        FpsCtrl(msg);
-        MainEvent();
+
         InvalidateRect(msg.hwnd, NULL, TRUE);  //領域無効化
         UpdateWindow(msg.hwnd);                //再描画命令
+        FpsCtrl(msg);
+        MainEvent();
     }
 
     return (int) msg.wParam;
@@ -183,14 +167,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         stEvent event;
         event.id = EventId::MOUSE_MOVE;
         EventSend(event);
-        Entity::GetInstance()->Datas.mouse_x = GET_X_LPARAM(lParam);
-        Entity::GetInstance()->Datas.mouse_y = GET_Y_LPARAM(lParam);
+        Entity::GetInstance()->Datas.mouse.x = GET_X_LPARAM(lParam);
+        Entity::GetInstance()->Datas.mouse.y = GET_Y_LPARAM(lParam);
         break;
     }
     case WM_LBUTTONDOWN:
     {
         stEvent event;
         event.id = EventId::L_BUTTON_DOWN;
+        EventSend(event);
+        break;
+    }
+    case WM_RBUTTONDOWN:
+    {
+        stEvent event;
+        event.id = EventId::R_BUTTON_DOWN;
         EventSend(event);
         break;
     }
@@ -201,6 +192,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         EventSend(event);
         break;
     }
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
