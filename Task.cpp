@@ -30,8 +30,13 @@ void TaskManager::DestroyTask()
 }
 Task* TaskManager::DetectTop(POINT point)
 {
-	for (Task* task : this->TaskList)
+	Task* task = nullptr;
+	
+	/* ÅãˆÊ‚É•`‰æ‚³‚ê‚Ä‚¢‚é‚à‚Ì‚©‚çŠm”F‚·‚é */
+	for ( size_t i = this->TaskList.size(); i > 0; i-- )
 	{
+		task = this->TaskList[i-1];
+
 		if (point.x >= task->Start.x && point.x <= task->End.x
 		 && point.y >= task->Start.y && point.y <= task->End.y)
 		{

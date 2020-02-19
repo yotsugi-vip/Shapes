@@ -90,16 +90,16 @@ void EvLButtonDown()
 	if (TaskManager::GetInstance()->IsDraw)
 	{
 		Rect* task = new Rect();
-		task->Start.x = Entity::GetInstance()->Datas.mouse.x;
-		task->Start.y = Entity::GetInstance()->Datas.mouse.y;
-		task->End.x = Entity::GetInstance()->Datas.mouse.x;
-		task->End.y = Entity::GetInstance()->Datas.mouse.y;
+		task->Start.x = Entity::GetInstance()->Datas.Coordinate.x;
+		task->Start.y = Entity::GetInstance()->Datas.Coordinate.y;
+		task->End.x = Entity::GetInstance()->Datas.Coordinate.x;
+		task->End.y = Entity::GetInstance()->Datas.Coordinate.y;
 		TaskManager::GetInstance()->RegisterTask(task);
 		nowPaint = true;
 	}
 	else
 	{	
-		Task* task = TaskManager::GetInstance()->DetectTop(Entity::GetInstance()->Datas.mouse);
+		Task* task = TaskManager::GetInstance()->DetectTop(Entity::GetInstance()->Datas.Coordinate);
 
 		if (nullptr != task)
 		{
@@ -113,16 +113,16 @@ void EvMouseMove()
 	if (TaskManager::GetInstance()->IsDraw && nowPaint)
 	{
 		Task* task = TaskManager::GetInstance()->GetTask();
-		task->End.x = Entity::GetInstance()->Datas.mouse.x;
-		task->End.y = Entity::GetInstance()->Datas.mouse.y;
+		task->End.x = Entity::GetInstance()->Datas.Coordinate.x;
+		task->End.y = Entity::GetInstance()->Datas.Coordinate.y;
 	}
 	else if( nowPaint )
 	{
 		Task* task = TaskManager::GetInstance()->GetTask();
-		task->Start.x += Entity::GetInstance()->Datas.mouse.x;
-		task->Start.y += Entity::GetInstance()->Datas.mouse.y;
-		task->End.x += Entity::GetInstance()->Datas.mouse.x;
-		task->End.y += Entity::GetInstance()->Datas.mouse.y;
+		task->Start.x += Entity::GetInstance()->Datas.Move.x;
+		task->Start.y += Entity::GetInstance()->Datas.Move.y;
+		task->End.x += Entity::GetInstance()->Datas.Move.x;
+		task->End.y += Entity::GetInstance()->Datas.Move.y;
 	}
 }
 

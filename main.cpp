@@ -165,10 +165,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
     {
         stEvent event;
+        POINT   point = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+
+        Entity::GetInstance()->SetCoordinate(point);
+
         event.id = EventId::MOUSE_MOVE;
         EventSend(event);
-        Entity::GetInstance()->Datas.mouse.x = GET_X_LPARAM(lParam);
-        Entity::GetInstance()->Datas.mouse.y = GET_Y_LPARAM(lParam);
         break;
     }
     case WM_LBUTTONDOWN:

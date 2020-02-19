@@ -20,5 +20,6 @@ public:
 	stDatas Datas;
 	size_t DatsSize;
 	Entity();
+	void SetCoordinate( POINT point );
 };
 

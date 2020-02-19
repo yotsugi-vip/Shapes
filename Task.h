@@ -1,6 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include <list>
+#include <vector>
 #include <Windows.h>
 
 class Task
@@ -21,7 +22,7 @@ public:
 	void AllDraw( HDC hdc );
 	bool IsDraw = false;
 private:
-	std::list<Task*> TaskList;
+	std::vector<Task*> TaskList;
 	Task* ActiveTask = nullptr;
 };
 
