@@ -12,8 +12,11 @@ public:
 	POINT End = { 0 };
 };
 
-class TaskManager : public Singleton<TaskManager>
+class TaskManager final : public Singleton<TaskManager>
 {
+public:
+	friend class Singleton<TaskManager>;
+
 public:
 	void RegisterTask( Task* task );
 	Task* DetectTop(POINT point);
@@ -21,6 +24,11 @@ public:
 	void DestroyTask();
 	void AllDraw( HDC hdc );
 	bool IsDraw = false;
+
+private:
+	TaskManager();
+	~TaskManager();
+
 private:
 	std::vector<Task*> TaskList;
 	Task* ActiveTask = nullptr;

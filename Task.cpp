@@ -1,5 +1,15 @@
 #include "Task.h"
 
+TaskManager::TaskManager()
+{
+
+}
+
+TaskManager::~TaskManager()
+{
+
+}
+
 void TaskManager::AllDraw( HDC hdc )
 {
 	for (Task* task : TaskManager::TaskList)
@@ -28,6 +38,7 @@ void TaskManager::DestroyTask()
 
 	this->TaskList.clear();
 }
+
 Task* TaskManager::DetectTop(POINT point)
 {
 	Task* task = nullptr;

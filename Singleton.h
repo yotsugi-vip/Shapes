@@ -2,10 +2,17 @@
 
 template<class T>
 class Singleton {
+protected:
+	Singleton() = default;
+	virtual ~Singleton() = default;
+	Singleton(const Singleton&) = delete;
+	Singleton(Singleton&&) = delete;
+
 public:
 	static void Create();
 	static void Destroy();
 	static T* GetInstance();
+
 private:
 	static T* pInstance;
 };
